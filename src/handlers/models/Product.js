@@ -148,7 +148,7 @@ const Product = {
         "json_build_object('id', category.id, 'label', category.label) as category"
       ),
       knex.raw(
-        "json_build_object('id', user_account.id, 'label', user_account.username) as user_account"
+        "json_build_object('id', user_account.id, 'username', user_account.username) as user_account"
       ),
     ]);
   },
