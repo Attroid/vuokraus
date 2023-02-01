@@ -1,0 +1,28 @@
+{
+  "deliveryType": {
+    "PICKUP": "Nouto",
+    "SHIPMENT": "Toimitus"
+  },
+  "category": {
+    "ART": "Taide",
+    "PETS": "Lemmikit",
+    "FASHION": "Muoti",
+    "FOOD": "Ruoka",
+    "SPORTS": "Urheilu",
+    "TECHNICS": "Tekniikka"
+  },
+  "tradeType": {
+    "SELLING": "Myydään",
+    "BUYING": "Ostetaan",
+    "RENTING": "Vuokrataan",
+    "WANTING_TO_RENT": "Halutaan vuokrata",
+    "GIVING_AWAY": "Annetaan"
+  },
+  "condition": {
+    "NEW": "Uusi",
+    "EXCELLENT": "Erinomainen",
+    "GOOD": "Hyvä",
+    "DECENT": "Tyydyttävä",
+    "BAD": "Huono"
+  }
+}
