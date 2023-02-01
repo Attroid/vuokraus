@@ -17,10 +17,10 @@ module.exports = {
       max: 10,
     },
     migrations: {
-      directory: __dirname + '/server/database/migrations',
+      directory: __dirname + '/src/database/migrations',
     },
     seeds: {
-      directory: __dirname + 'server/database/seeds',
+      directory: __dirname + 'src/database/seeds',
     },
     postProcessResponse: (result) => {
       return humps.camelizeKeys(result);
@@ -43,10 +43,10 @@ module.exports = {
       max: 10,
     },
     migrations: {
-      directory: __dirname + '/server/database/migrations',
+      directory: __dirname + '/src/database/migrations',
     },
     seeds: {
-      directory: __dirname + '/server/database/seeds',
+      directory: __dirname + '/src/database/seeds',
     },
     postProcessResponse: (result) => {
       return humps.camelizeKeys(result);
