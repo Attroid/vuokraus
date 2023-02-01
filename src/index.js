@@ -5,6 +5,7 @@ import {
   addSetAuthCookieToResponse,
   addUserAgentToRequest,
 } from 'middleware/response';
+import { errorHandler } from 'middleware/errors';
 
 export default function createNextJsServer({ app, handle }) {
   const server = express();
@@ -13,8 +14,8 @@ export default function createNextJsServer({ app, handle }) {
   server.use(addSetAuthCookieToResponse);
   server.use(cookieParser());
   server.use(addUserAgentToRequest);
-
   server.use('/api', api);
+  server.use(errorHandler);
 
   server.get('*', (req, res) => {
     return handle(req, res);
