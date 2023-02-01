@@ -36,13 +36,14 @@ function FooterColumn() {
         <Col>
           <div>Linkit</div>
           <div>
-            {['Github'].map((tech) => (
-              <div key={tech} className='my-2'>
-                <Link className='link-secondary py-1' href={tech}>
-                  {tech}
-                </Link>
-              </div>
-            ))}
+            <div className='my-2'>
+              <Link
+                className='link-secondary py-1'
+                href='https://www.github.com/attroid/vuokraus'
+              >
+                Github
+              </Link>
+            </div>
           </div>
         </Col>
       </Row>
