@@ -217,6 +217,11 @@ const Product = {
     }
   },
 
+  /**
+   * Find all products that user has marked as favorite
+   * @param {number} userAccountId
+   * @returns {Array<Object>} products
+   */
   findUserAccountFavorites: async function (userAccountId) {
     const products = await this.selectProducts(
       this.getProductJoinQuery()

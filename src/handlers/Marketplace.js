@@ -5,6 +5,14 @@ import Product from './models/Product';
 import Auth from './Auth';
 
 const Marketplace = {
+  /**
+   * Find all values that can be used to filter products
+   * @returns {{
+   *    categories: Array<Object>,
+   *    provinces: Array<Object>,
+   *    tradeTypes: Array<Object>
+   * }}
+   */
   getProductFilters: async function () {
     const [categories, provinces, tradeTypes] = await Promise.all([
       Category.findAll(),
@@ -19,10 +27,32 @@ const Marketplace = {
     };
   },
 
+  /**
+   * Find product by id
+   * @param {number} productId
+   * @param {number} userAccountId if provided, isFavorite is assigned to product
+   * @returns {Object} product
+   *
+   * @throws {ProductNotFoundError}
+   */
   findProductById: function (productId, userAccountId) {
     return Product.findById(productId, userAccountId);
   },
 
+  /**
+   * Find paginated products
+   * @param {number} pageNumber
+   * @param {number} pageSize
+   * @param {string} searchTerm
+   * @param {Array<number>} provinceIds
+   * @param {Array<number>} categoryIds
+   * @param {Array<number>} tradeTypeIds
+   * @returns {{
+   *    products: Array<Object>,
+   *    productCount: number,
+   *    pageCount: number
+   * }} paginated products, filtered products count and page amount
+   */
   findPaginatedProducts: function (
     pageNumber,
     pageSize,
@@ -41,11 +71,24 @@ const Marketplace = {
     );
   },
 
+  /**
+   * Mark product as favorite/unfavorite for user account
+   * @param {number} userAccountId
+   * @param {number} productId
+   * @returns {boolean} is product now marked as favorite
+   *
+   * @throws {ProductNotFoundError}
+   */
   toggleProductFavorite: async function (authToken, userAgent, productId) {
     const userAccount = await Auth.validateSession(authToken, userAgent);
     return Product.toggleFavorite(userAccount.id, productId);
   },
 
+  /**
+   * Find all products that user has marked as favorite
+   * @param {number} userAccountId
+   * @returns {Array<Object>} products
+   */
   findUserAccountFavoriteProducts: async function (userAccountId) {
     return Product.findUserAccountFavorites(userAccountId);
   },
