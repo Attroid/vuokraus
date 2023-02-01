@@ -2,13 +2,12 @@ import AccountTabs from 'components/commons/accountTabs';
 import Marketplace from 'handlers/Marketplace';
 import Button from 'react-bootstrap/Button';
 import withSession from 'utils/sessionHook';
-import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import ProductCard from 'components/account-favourites-page/ProductCard';
 
 export default function AccountFavourites({ products, favoriteProductCount }) {
   const router = useRouter();
@@ -26,6 +25,7 @@ export default function AccountFavourites({ products, favoriteProductCount }) {
     <div className='mt-4'>
       <AccountTabs favoriteProductCount={favoriteProductCount} />
       <h1 className='fs-5 fw-bold mt-5'>Suosikit</h1>
+
       {products.length === 0 && (
         <>
           <p className='text-muted mt-5'>
@@ -41,33 +41,10 @@ export default function AccountFavourites({ products, favoriteProductCount }) {
       <Row>
         {products.map((product) => (
           <Col key={product.id} sm={3} className='p-2'>
-            <Card className='pt-3'>
-              <Link
-                href={`/products/${product.id}`}
-                className='d-flex justify-content-center'
-              >
-                <Image
-                  as={Image}
-                  width={160}
-                  height={120}
-                  style={{ width: 'auto' }}
-                  alt={product.description}
-                  src={'https://loremflickr.com/160/120/' + product.imageUrl}
-                />
-              </Link>
-              <Card.Body className='d-flex flex-column align-items-center'>
-                <Card.Title>
-                  <Link href={`/products/${product.id}`}>{product.name}</Link>
-                </Card.Title>
-                <Card.Text>{product.price} €</Card.Text>
-                <Button
-                  variant='danger'
-                  onClick={() => handleFavoriteRemove(product.id)}
-                >
-                  Poista
-                </Button>
-              </Card.Body>
-            </Card>
+            <ProductCard
+              product={product}
+              onDelete={() => handleFavoriteRemove(product.id)}
+            />
           </Col>
         ))}
       </Row>
