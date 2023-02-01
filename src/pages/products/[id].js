@@ -4,7 +4,8 @@ import { Row, Col, Breadcrumb, Button } from 'react-bootstrap';
 import withSession from 'utils/sessionHook';
 import Marketplace from 'handlers/Marketplace';
 import axios from 'axios';
-import { useState } from 'react';
+import HeartButton from 'components/product-page/HeartButton';
+import { useRouter } from 'next/router';
 
 const parseDate = (IsoDateString) => {
   const [date, time] = IsoDateString.split('T');
@@ -16,12 +17,12 @@ const parseDate = (IsoDateString) => {
 };
 
 export default function Product({ product, user }) {
-  const [favorite, setFavorite] = useState(product.isFavorite === true);
+  const router = useRouter();
 
   const handleFavoriteToggle = async () => {
     try {
-      const { data } = await axios.post(`/api/products/${product.id}/favorite`);
-      setFavorite(data.isFavorite);
+      await axios.post(`/api/products/${product.id}/favorite`);
+      router.replace(router.asPath);
     } catch (error) {
       console.log(error);
     }
@@ -48,24 +49,13 @@ export default function Product({ product, user }) {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
         </Breadcrumb>
-        <Button
-          className={`p-0 bg-white border-0${user ? '' : ' invisible'}`}
-          onClick={handleFavoriteToggle}
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='32'
-            height='32'
-            fill={favorite ? '#dc3545' : 'grey'}
-            class='bi bi-heart-fill'
-            viewBox='0 0 16 16'
-          >
-            <path
-              fill-rule='evenodd'
-              d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z'
-            />
-          </svg>
-        </Button>
+
+        {user && (
+          <HeartButton
+            active={product.isFavorite}
+            onClick={handleFavoriteToggle}
+          />
+        )}
       </div>
 
       <br />
