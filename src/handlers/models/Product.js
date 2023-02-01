@@ -69,10 +69,33 @@ const Product = {
    *
    * @throws {ProductNotFoundError}
    */
-  findById: async function (productId) {
-    const product = await this.selectProducts(this.getProductJoinQuery())
+  findById: async function (productId, userAccountId) {
+    if (!productId) {
+      throw new ProductNotFoundError();
+    }
+
+    let query = this.selectProducts(this.getProductJoinQuery())
       .where('product.id', productId)
       .first();
+
+    if (userAccountId) {
+      query = query
+        .leftJoin('userAccountFavoriteProduct', function () {
+          this.on('userAccountFavoriteProduct.productId', '=', 'product.id').on(
+            'userAccountFavoriteProduct.userAccountId',
+            '=',
+            userAccountId
+          );
+        })
+        .select(
+          knex.raw(
+            `CASE WHEN user_account_favorite_product.user_account_id = ? THEN true ELSE false END as is_favorite`,
+            userAccountId
+          )
+        );
+    }
+
+    const product = await query;
 
     if (!product) {
       throw new ProductNotFoundError();
@@ -153,6 +176,58 @@ const Product = {
    */
   localizeMany: function (products) {
     return products.map(this.localize);
+  },
+
+  /**
+   * Mark product as favorite/unfavorite for user account
+   * @param {number} userAccountId
+   * @param {number} productId
+   * @returns {boolean} is product now marked as favorite
+   *
+   * @throws {ProductNotFoundError}
+   */
+  toggleFavorite: async function (userAccountId, productId) {
+    // Check that product exists.
+    await this.findById(productId);
+
+    const userAccountFavoriteProduct = await knex('userAccountFavoriteProduct')
+      .where({
+        userAccountId,
+        productId,
+      })
+      .select('*')
+      .first();
+
+    if (userAccountFavoriteProduct) {
+      await knex('userAccountFavoriteProduct')
+        .where({
+          userAccountId,
+          productId,
+        })
+        .del();
+
+      return false;
+    } else {
+      await knex('userAccountFavoriteProduct').insert({
+        userAccountId,
+        productId,
+      });
+
+      return true;
+    }
+  },
+
+  findUserAccountFavorites: async function (userAccountId) {
+    const products = await this.selectProducts(
+      this.getProductJoinQuery()
+    ).whereIn(
+      'product.id',
+      knex('userAccountFavoriteProduct')
+        .where('userAccountId', userAccountId)
+        .select('productId')
+    );
+
+    return this.localizeMany(products);
   },
 };
 

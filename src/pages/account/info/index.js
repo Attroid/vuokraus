@@ -5,8 +5,13 @@ import withSession from 'utils/sessionHook';
 import Auth from 'handlers/Auth';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Marketplace from 'handlers/Marketplace';
 
-export default function AccountInfo({ user, loggedInDeviceCount }) {
+export default function AccountInfo({
+  user,
+  loggedInDeviceCount,
+  favoriteProductCount,
+}) {
   const router = useRouter();
 
   const logoutFromAllDevices = async () => {
@@ -20,7 +25,7 @@ export default function AccountInfo({ user, loggedInDeviceCount }) {
 
   return (
     <div className='mt-4'>
-      <AccountTabs />
+      <AccountTabs favoriteProductCount={favoriteProductCount} />
 
       <Row className='px-3 mt-5'>
         <Col sm={5} className='bg-light rounded p-4 mt-2'>
@@ -90,11 +95,13 @@ export const getServerSideProps = withSession(async ({ req }) => {
   }
 
   const loggedInDeviceCount = await Auth.sessionCount(user.id);
+  const products = await Marketplace.findUserAccountFavoriteProducts(user.id);
 
   return {
     props: {
       user,
       loggedInDeviceCount,
+      favoriteProductCount: products.length,
     },
   };
 });

@@ -9,7 +9,7 @@ const tabs = [
   { eventKey: '/account/info', title: 'Oma tili' },
 ];
 
-function AccountTabs() {
+function AccountTabs({ favoriteProductCount = 0 }) {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -44,7 +44,12 @@ function AccountTabs() {
           tabClassName={`text-${
             tab.eventKey === router.pathname ? 'black' : 'danger'
           }`}
-          title={tab.title}
+          title={
+            tab.title +
+            (tab.eventKey.includes('favourites')
+              ? ` (${favoriteProductCount})`
+              : '')
+          }
         />
       ))}
       <Tab eventKey='/logout' tabClassName='text-black' title='Kirjaudu ulos' />

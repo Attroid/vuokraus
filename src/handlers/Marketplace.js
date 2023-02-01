@@ -2,6 +2,7 @@ import Category from './models/Category';
 import Province from './models/Province';
 import TradeType from './models/TradeType';
 import Product from './models/Product';
+import Auth from './Auth';
 
 const Marketplace = {
   getProductFilters: async function () {
@@ -18,8 +19,8 @@ const Marketplace = {
     };
   },
 
-  findProductById: function (productId) {
-    return Product.findById(productId);
+  findProductById: function (productId, userAccountId) {
+    return Product.findById(productId, userAccountId);
   },
 
   findPaginatedProducts: function (
@@ -38,6 +39,15 @@ const Marketplace = {
       categoryIds,
       tradeTypeIds
     );
+  },
+
+  toggleProductFavorite: async function (authToken, userAgent, productId) {
+    const userAccount = await Auth.validateSession(authToken, userAgent);
+    return Product.toggleFavorite(userAccount.id, productId);
+  },
+
+  findUserAccountFavoriteProducts: async function (userAccountId) {
+    return Product.findUserAccountFavorites(userAccountId);
   },
 };
 
