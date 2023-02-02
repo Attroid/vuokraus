@@ -1,7 +1,7 @@
 require('dotenv').config();
 const humps = require('humps');
 
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_PORT } = process.env;
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_PORT, DB_HOST } = process.env;
 
 module.exports = {
   production: {
@@ -11,6 +11,8 @@ module.exports = {
       user: DB_USER,
       password: DB_PASSWORD,
       port: DB_PORT,
+      host: DB_HOST,
+      ssl: { rejectUnauthorized: false }
     },
     pool: {
       min: 2,
@@ -37,6 +39,8 @@ module.exports = {
       user: DB_USER,
       password: DB_PASSWORD,
       port: DB_PORT,
+      host: DB_HOST,
+      ssl: { rejectUnauthorized: false }
     },
     pool: {
       min: 2,
