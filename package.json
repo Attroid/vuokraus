@@ -6,7 +6,9 @@
     "dev": "nodemon --watch src/api --watch src/database --watch src/handlers --watch src/localization --watch src/utils --watch src/index.js --watch ssr-server.js --exec babel-node ssr-server.js",
     "build": "next build",
     "start": "cross-env NODE_ENV=production babel-node ssr-server.js",
-    "db:create": "node server/database/createDatabase.js"
+    "db:create": "node server/database/createDatabase.js",
+    "deploy:build": "npm install && npm run build",
+    "deploy:start": "npm start"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
