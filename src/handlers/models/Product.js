@@ -1,6 +1,9 @@
 import knex from 'database/knex';
 import t from 'localization/i18n';
-import { ProductNotFoundError } from 'utils/customErrors';
+import {
+  ProductNotFoundError,
+  InsufficientPermissionsError,
+} from 'utils/customErrors';
 import { cloneDeep, isEmpty } from 'utils/helpers';
 import { Knex } from 'knex';
 
@@ -233,6 +236,45 @@ const Product = {
     );
 
     return this.localizeMany(products);
+  },
+
+  /**
+   * Find all products that user has added
+   * @param {number} userAccountId
+   * @returns {Array<Object>} products
+   */
+  findUserAccountOwnProducts: async function (userAccountId) {
+    const products = await this.selectProducts(
+      this.getProductJoinQuery()
+    ).where('product.userAccountId', userAccountId);
+
+    return this.localizeMany(products);
+  },
+
+  /**
+   * Delete product
+   * @param {number} userAccountId
+   * @param {number} productId
+   * @returns {undefined} if method runs succesfully it does not return anything
+   *
+   * @throws {ProductNotFoundError}
+   */
+  delete: async function (userAccountId, productId) {
+    const product = await knex('product')
+      .where('id', productId)
+      .select('*')
+      .first();
+
+    if (!product) {
+      throw new ProductNotFoundError();
+    }
+
+    if (product && product.userAccountId !== userAccountId) {
+      throw new InsufficientPermissionsError();
+    }
+
+    await knex('user_account_favorite_product').where({ productId }).del();
+    await knex('product').where('id', productId).del();
   },
 };
 

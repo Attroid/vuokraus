@@ -55,3 +55,9 @@ export class ProductNotFoundError extends CustomError {
     super(message, 'PRODUCT_NOT_FOUND', 401);
   }
 }
+
+export class InsufficientPermissionsError extends CustomError {
+  constructor(message = 'Insufficient permissions.') {
+    super(message, 'INSUFFICIENT_PERMISSIONS', 401);
+  }
+}

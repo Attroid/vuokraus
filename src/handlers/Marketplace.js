@@ -3,6 +3,7 @@ import Province from './models/Province';
 import TradeType from './models/TradeType';
 import Product from './models/Product';
 import Auth from './Auth';
+import { UserAccountNotFoundError } from 'utils/customErrors';
 
 const Marketplace = {
   /**
@@ -91,6 +92,25 @@ const Marketplace = {
    */
   findUserAccountFavoriteProducts: async function (userAccountId) {
     return Product.findUserAccountFavorites(userAccountId);
+  },
+
+  /**
+   * Find all products that user has added
+   * @param {number} userAccountId
+   * @returns {Array<Object>} products
+   */
+  findUserAccountOwnProducts: async function (userAccountId) {
+    return Product.findUserAccountOwnProducts(userAccountId);
+  },
+
+  /**
+   * Delete product
+   * @param {number} userAccountId
+   * @returns {Array<Object>} products
+   */
+  deleteProduct: async function (authToken, userAgent, productId) {
+    const userAccount = await Auth.validateSession(authToken, userAgent);
+    return Product.delete(userAccount?.id, productId);
   },
 };
 

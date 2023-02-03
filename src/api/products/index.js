@@ -21,4 +21,17 @@ router.post(
   })
 );
 
+router.delete(
+  '/:id(\\d+)',
+  catchErrors(async (req, res) => {
+    const { authToken } = req.cookies;
+    const { userAgent } = req;
+    const productId = Number(req.params.id);
+
+    await Marketplace.deleteProduct(authToken, userAgent, productId);
+
+    res.status(200).end();
+  })
+);
+
 export default router;
