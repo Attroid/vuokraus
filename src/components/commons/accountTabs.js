@@ -35,7 +35,7 @@ function AccountTabs({ favoriteProductCount = 0 }) {
       className='mb-3'
       transition={false}
       onSelect={handleSelect}
-      defaultActiveKey={router.pathname}
+      activeKey={router.pathname}
     >
       {tabs.map((tab) => (
         <Tab
