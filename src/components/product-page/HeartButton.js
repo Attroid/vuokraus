@@ -8,7 +8,6 @@ export default function HeartButton({ onClick, active }) {
         width='32'
         height='32'
         fill={active ? '#dc3545' : 'grey'}
-        class='bi bi-heart-fill'
         viewBox='0 0 16 16'
       >
         <path
