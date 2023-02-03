@@ -12,7 +12,6 @@ module.exports = {
       password: DB_PASSWORD,
       port: DB_PORT,
       host: DB_HOST,
-      ssl: { rejectUnauthorized: false }
     },
     pool: {
       min: 2,
@@ -40,7 +39,6 @@ module.exports = {
       password: DB_PASSWORD,
       port: DB_PORT,
       host: DB_HOST,
-      ssl: { rejectUnauthorized: false }
     },
     pool: {
       min: 2,
