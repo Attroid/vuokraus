@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function AppBar({ activeUser }) {
   const router = useRouter();
@@ -13,7 +14,19 @@ function AppBar({ activeUser }) {
 
     if (['/login', '/404'].includes(router.pathname) === false) {
       newProfileSection = activeUser ? (
-        <Link href='/account?'>{activeUser.username}</Link>
+        <div className='d-flex align-items-center'>
+          {router.pathname !== '/account/create-product' && (
+            <Button
+              variant='outline-primary me-4'
+              as={Link}
+              href='/account/create-product'
+            >
+              Jätä ilmoitus
+            </Button>
+          )}
+
+          <Link href='/account?'>{activeUser.username}</Link>
+        </div>
       ) : (
         <div>
           <Link href='/login'>Kirjaudu sisään</Link>
