@@ -8,8 +8,9 @@ exports.up = async (knex) => {
         table.increments();
         table.string('name').notNullable();
         table.string('description', 1000).notNullable();
-        table.integer('price').unsigned().notNullable();
-        table.string('imageUrl', 1000);
+        table.integer('price').unsigned().nullable();
+        table.string('imageUrl', 2000);
+        table.string('thumbUrl', 2000);
         table.timestamps(true, true);
       })
       .raw(onUpdateTrigger(tableName));

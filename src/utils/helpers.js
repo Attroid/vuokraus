@@ -34,9 +34,9 @@ export function removeEmpty(obj) {
 export function formatIsoDateString(IsoDateString) {
   const [date, time] = IsoDateString.split('T');
   const parsedDate = date.split('-').reverse().map(Number).join('.');
-  const parsedTime = time.split(':').slice(0, 2).map(Number).join(':');
+  const [hours, minutes] = time.split(':').slice(0, 2);
 
-  return `${parsedDate} ${parsedTime}`;
+  return `${parsedDate} ${Number(hours)}:${minutes}`;
 }
 
 export function cloneDeep(param) {

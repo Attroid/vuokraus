@@ -61,3 +61,9 @@ export class InsufficientPermissionsError extends CustomError {
     super(message, 'INSUFFICIENT_PERMISSIONS', 401);
   }
 }
+
+export class ImageUploadError extends CustomError {
+  constructor(message = 'Image upload error.') {
+    super(message, 'IMAGE_UPLOAD_ERROR', 500);
+  }
+}

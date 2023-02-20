@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function Account({ favoriteProductCount, ownProducts }) {
   const router = useRouter();
@@ -34,7 +35,12 @@ export default function Account({ favoriteProductCount, ownProducts }) {
         valitsemalla 'JÄTÄ ILMOITUS' ylävalikosta.{' '}
       </p>
 
-      <Button className='mt-4 mb-4' variant='danger'>
+      <Button
+        as={Link}
+        href='/account/create-product'
+        className='mt-4 mb-4'
+        variant='danger'
+      >
         Jätä ilmoitus
       </Button>
 

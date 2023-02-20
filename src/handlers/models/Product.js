@@ -127,33 +127,36 @@ const Product = {
    * @returns {Knex.QueryBuilder}
    */
   selectProducts: function (query) {
-    return query.select([
-      'product.id',
-      'product.name',
-      'product.description',
-      'product.price',
-      'product.imageUrl',
-      'product.createdAt',
-      'product.updatedAt',
-      knex.raw(
-        "json_build_object('id', condition.id, 'label', condition.label) as condition"
-      ),
-      knex.raw(
-        "json_build_object('id', trade_type.id, 'label', trade_type.label) as trade_type"
-      ),
-      knex.raw(
-        "json_build_object('id', province.id, 'name', province.name) as province"
-      ),
-      knex.raw(
-        "json_build_object('id', delivery_type.id, 'label', delivery_type.label) as delivery_type"
-      ),
-      knex.raw(
-        "json_build_object('id', category.id, 'label', category.label) as category"
-      ),
-      knex.raw(
-        "json_build_object('id', user_account.id, 'username', user_account.username) as user_account"
-      ),
-    ]);
+    return query
+      .select([
+        'product.id',
+        'product.name',
+        'product.description',
+        'product.price',
+        'product.imageUrl',
+        'product.thumbUrl',
+        'product.createdAt',
+        'product.updatedAt',
+        knex.raw(
+          "json_build_object('id', condition.id, 'label', condition.label) as condition"
+        ),
+        knex.raw(
+          "json_build_object('id', trade_type.id, 'label', trade_type.label) as trade_type"
+        ),
+        knex.raw(
+          "json_build_object('id', province.id, 'name', province.name) as province"
+        ),
+        knex.raw(
+          "json_build_object('id', delivery_type.id, 'label', delivery_type.label) as delivery_type"
+        ),
+        knex.raw(
+          "json_build_object('id', category.id, 'label', category.label) as category"
+        ),
+        knex.raw(
+          "json_build_object('id', user_account.id, 'username', user_account.username) as user_account"
+        ),
+      ])
+      .orderBy('product.createdAt', 'DESC');
   },
 
   /**
@@ -275,6 +278,23 @@ const Product = {
 
     await knex('user_account_favorite_product').where({ productId }).del();
     await knex('product').where('id', productId).del();
+  },
+
+  /**
+   * Create product
+   * @param {Object} user
+   * @param {Object} product
+   * @returns {Object} product
+   */
+  create: async function (user, product) {
+    if (!product.price) delete product.price;
+    const [{ id }] = await knex('product')
+      .insert({
+        userAccountId: user.id,
+        ...product,
+      })
+      .returning('id');
+    return this.findById(id);
   },
 };
 

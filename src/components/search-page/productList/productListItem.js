@@ -18,16 +18,16 @@ function ProductListItem({ product }) {
         <Col sm='auto'>
           <Image
             key={product.id}
-            src={'https://loremflickr.com/160/120/' + product.imageUrl}
-            width={160}
-            height={120}
+            src={product.thumbUrl}
+            width={180}
+            height={180}
             alt={product.name}
           />
         </Col>
         <Col>
-          <div className='fs-5'>{product.name}</div>
+          <div className='fs-5 product-name'>{product.name}</div>
           <div className='py-3'>
-            <p className='fs-4'>{product.price} €</p>
+            <p className='fs-4'>{product.price || '-'} €</p>
           </div>
         </Col>
         <Col sm='auto'>

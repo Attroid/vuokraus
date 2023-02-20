@@ -7,31 +7,31 @@ import Col from 'react-bootstrap/Col';
 
 export default function ProductCard({ product, onDelete, onEdit }) {
   return (
-    <Card className='pt-3'>
+    <Card className='pt-1'>
       <Link
         href={`/products/${product.id}`}
         className='d-flex justify-content-center'
       >
         <Image
           as={Image}
-          width={160}
-          height={120}
-          style={{ width: 'auto' }}
+          width={180}
+          height={180}
           alt={product.description}
-          src={'https://loremflickr.com/160/120/' + product.imageUrl}
+          src={product.thumbUrl}
         />
       </Link>
       <Card.Body className='d-flex flex-column align-items-center'>
-        <Card.Title>
+        <Card.Title className='product-name'>
           <Link href={`/products/${product.id}`}>{product.name}</Link>
         </Card.Title>
-        <Card.Text>{product.price} €</Card.Text>
+        <Card.Text>{product.price || '-'} €</Card.Text>
         <Row className='w-100 justify-content-md-center'>
           {onEdit && (
             <Col sm={6} className='px-1'>
               <Button
                 className='border py-1 px-2 w-100 d-flex align-items-center justify-content-center'
                 variant='light'
+                disabled
               >
                 <small>Muokkaa</small>
               </Button>

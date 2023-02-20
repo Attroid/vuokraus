@@ -6,10 +6,10 @@ export default function ProductDetails({ product }) {
     <div>
       <Row className='mt-3 mb-2'>
         <Col>
-          <h1 className='fs-4 fw-bold'>{product.name}</h1>
+          <h1 className='fs-4 fw-bold product-name'>{product.name}</h1>
         </Col>
         <Col sm='auto'>
-          <div className='fs-4 fw-bold'>{product.price} €</div>
+          <div className='fs-4 fw-bold'>{product.price || '-'} €</div>
         </Col>
       </Row>
       <Row>
@@ -31,10 +31,10 @@ export default function ProductDetails({ product }) {
           <span className='fw-bold'>{product.deliveryType.label}</span>
         </Col>
       </Row>
-      <h2 className='fs-5 mt-5 fw-bold'>Lisätiedot</h2>
+      <h2 className='fs-5 mt-5 fw-bold text-wrap'>Lisätiedot</h2>
       <hr className='mt-0 mb-3' />
       <div className='ps-4 w-75'>
-        <p>{product.description}</p>
+        <p className='text-break product-description'>{product.description}</p>
         <p>Ota yhteyttä ilmoittajaan {product.userAccount.username}</p>
         <Button variant='danger' disabled>
           Soita

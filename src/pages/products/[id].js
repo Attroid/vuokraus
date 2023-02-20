@@ -35,7 +35,7 @@ export default function Product({ product, user }) {
         height={480}
         className='w-100'
         style={{ height: 'auto' }}
-        src={'https://loremflickr.com/640/480/' + product.imageUrl}
+        src={product.imageUrl}
         alt={product.name}
       />
       <ProductDetails product={product} />

@@ -13,7 +13,11 @@ export default function ProductBreadcrump({ product }) {
       <Breadcrumb.Item linkAs={Link} href={`/search?c=${product.category.id}`}>
         {product.category.label}
       </Breadcrumb.Item>
-      <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+      <Breadcrumb.Item active>
+        {product.name.length > 20
+          ? product.name.slice(0, 20) + '...'
+          : product.name}
+      </Breadcrumb.Item>
     </Breadcrumb>
   );
 }

@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['loremflickr.com'],
+    domains: ['i.ibb.co'],
   },
   i18n: {
     locales: ['fi'],

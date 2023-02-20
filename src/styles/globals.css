@@ -43,3 +43,76 @@ input[type='password'],
   background-color: var(--bs-red);
   border-color: var(--bs-red);
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: calc(1.275rem + 0.3vw);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.required::before {
+  color: red;
+  content: '*';
+  padding-right: 2px;
+}
+
+.custom-file-button input[type='file'] {
+  margin-left: -2px !important;
+}
+
+.custom-file-button input[type='file']::-webkit-file-upload-button {
+  display: none;
+}
+
+.custom-file-button input[type='file']::file-selector-button {
+  display: none;
+}
+
+.custom-file-button:hover label {
+  background-color: #dde0e3;
+  cursor: pointer;
+}
+
+.arrow-right:before {
+  content: '';
+  position: absolute;
+  right: -11px;
+  top: 4px;
+  transform: rotate(45deg);
+  border-width: 11px;
+  border-color: var(--bs-light);
+  border-style: solid;
+  z-index: 2;
+}
+
+.arrow-right.bg-info:before {
+  content: '';
+  position: absolute;
+  right: -11px;
+  top: 4px;
+  transform: rotate(45deg);
+  border-width: 11px;
+  border-color: var(--bs-info);
+  border-style: solid;
+  z-index: 2;
+}
+
+.product-name,
+.product-description {
+  white-space: pre-wrap;
+  word-break: break-word;
+  word-wrap: break-word;
+}

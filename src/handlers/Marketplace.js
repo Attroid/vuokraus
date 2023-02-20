@@ -3,28 +3,36 @@ import Province from './models/Province';
 import TradeType from './models/TradeType';
 import Product from './models/Product';
 import Auth from './Auth';
-import { UserAccountNotFoundError } from 'utils/customErrors';
+import Condition from './models/Condition';
+import DeliveryType from './models/DeliveryType';
 
 const Marketplace = {
   /**
    * Find all values that can be used to filter products
    * @returns {{
-   *    categories: Array<Object>,
-   *    provinces: Array<Object>,
-   *    tradeTypes: Array<Object>
+   *    categories:    Array<Object>,
+   *    provinces:     Array<Object>,
+   *    tradeTypes:    Array<Object>,
+   *    conditions:    Array<Object>,
+   *    deliveryTypes: Array<Object>
    * }}
    */
   getProductFilters: async function () {
-    const [categories, provinces, tradeTypes] = await Promise.all([
-      Category.findAll(),
-      Province.findAll(),
-      TradeType.findAll(),
-    ]);
+    const [categories, provinces, tradeTypes, conditions, deliveryTypes] =
+      await Promise.all([
+        Category.findAll(),
+        Province.findAll(),
+        TradeType.findAll(),
+        Condition.findAll(),
+        DeliveryType.findAll(),
+      ]);
 
     return {
       categories,
       provinces,
       tradeTypes,
+      conditions,
+      deliveryTypes,
     };
   },
 
@@ -111,6 +119,16 @@ const Marketplace = {
   deleteProduct: async function (authToken, userAgent, productId) {
     const userAccount = await Auth.validateSession(authToken, userAgent);
     return Product.delete(userAccount?.id, productId);
+  },
+
+  /**
+   * Create product
+   * @param {Object} user
+   * @param {Object} product
+   * @returns {Object} created product
+   */
+  createProduct: async function (user, product) {
+    return Product.create(user, product);
   },
 };
 
